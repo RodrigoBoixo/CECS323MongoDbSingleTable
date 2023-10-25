@@ -65,3 +65,62 @@ def insert_department(department,database):
 
   # Insert the department document into the collection.
   database.departments.insert_one(department)
+
+
+def add_department(database):
+
+  name = input("Department name --> ")
+  abbreviation = input("Department's abbreviation --> ")
+  chairName = input("Department Chair name --> ")
+  building = input("Building name --> ")
+  office = int(input("Office number --> "))
+  description = input("Description of department --> ")
+
+  department = {
+    "name": name,
+    "abbreviation": abbreviation,
+    "chair_name": chairName,
+    "building": building,
+    "office": office,
+    "description": description
+  }
+
+  while not validate_department(department):
+    name = input("Department name --> ")
+    abbreviation = input("Department's abbreviation --> ")
+    chairName = input("Department Chair name --> ")
+    building = input("Building name --> ")
+    office = int(input("Office number --> "))
+    description = input("Description of department --> ")
+
+    department = {
+      "name": name,
+      "abbreviation": abbreviation,
+      "chair_name": chairName,
+      "building": building,
+      "office": office,
+      "description": description
+    }
+
+  # Check for existing departments with the same abbreviation, chair name, building, and office.
+  existing_departments = database.departments.find({
+    "$or": [
+      {"abbreviation": department["abbreviation"]},
+      {"chair_name": department["chair_name"]},
+      {"building": department["building"], "office": department["office"]},
+    ]
+  })
+
+  # Convert the Cursor object to a list.
+  existing_departments_list = cursor_to_list(existing_departments)
+
+  # Count the number of existing departments.
+  num_existing_departments = len(existing_departments_list)
+
+  if num_existing_departments > 0:
+    raise ValueError("There is already a department with the same abbreviation, chair name, building, or office.")
+
+  # Insert the department document into the collection.
+  database.departments.insert_one(department)
+
+

@@ -26,10 +26,7 @@ department = {
   "description": "The Electrical Engineering department ."
 }
 
-try:
-  Dp.insert_department(department,db)
-except ValueError as e:
-  print(e)
+Dp.add_department(db)
 
 # Get all of the departments in the collection.
 departments = db.departments.find()
