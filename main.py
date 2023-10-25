@@ -41,13 +41,22 @@ def validate_department(department):
   # Return the validated department document.
   return department
 
+def cursor_to_list(cursor):
+  """Converts a Cursor object to a list."""
+
+  list = []
+  for document in cursor:
+    list.append(document)
+  return list
+
+
 def insert_department(department):
   """Inserts a department document into the collection."""
 
   # Validate the department document.
   validate_department(department)
 
-  # Check for existing departments with the same abbreviation, chair name, building and office.
+  # Check for existing departments with the same abbreviation, chair name, building, and office.
   existing_departments = db.departments.find({
     "$or": [
       {"abbreviation": department["abbreviation"]},
@@ -55,7 +64,14 @@ def insert_department(department):
       {"building": department["building"], "office": department["office"]},
     ]
   })
-  if existing_departments.count() > 0:
+
+  # Convert the Cursor object to a list.
+  existing_departments_list = cursor_to_list(existing_departments)
+
+  # Count the number of existing departments.
+  num_existing_departments = len(existing_departments_list)
+
+  if num_existing_departments > 0:
     raise ValueError("There is already a department with the same abbreviation, chair name, building, or office.")
 
   # Insert the department document into the collection.
