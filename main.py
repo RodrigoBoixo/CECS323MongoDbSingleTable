@@ -33,12 +33,6 @@ while go:
 
 # Get all of the departments in the collection.
 
-departments = db.departments.find()
-
-# Print the departments.
-for department in departments:
-  print(department)
-
 
 
 
