@@ -1,34 +1,38 @@
 from pymongo import MongoClient
 
-import Department as Dp
+from Department import Department
 
-cluster = input("Input your connection link") or "mongodb+srv://rboixo:Carm3n1ta@atlascluster.wxir5tb.mongodb.net/?retryWrites=true&w=majority"
+cluster = input("Input your connection link: ") or "mongodb+srv://rboixo:Carm3n1ta@atlascluster.wxir5tb.mongodb.net/?retryWrites=true&w=majority"
 
-
+database = input("Input the name of your database: ") or "CECS323Database"
 
 client = MongoClient(cluster)
 
-db = client.CECS323Database
-collection = db.Deparments
-
-#collection.insert_one({"Name":"Mike"})
-
-#collection.insert_one({"name":"CECS"})
+db = client[database]
 
 
 
-department = {
-  "name": "Electrical Engineering",
-  "abbreviation": "EE",
-  "chair_name": "David Brown",
-  "building": "SciTEch",
-  "office": 111,
-  "description": "The Electrical Engineering department ."
-}
 
-Dp.add_department(db)
+Dp = Department(db)
+go = True
+while go:
+  action = int(input("What do you want to do: \n 1:Add department \n 2:Delete department \n3: Quit"))
+  if action == 1:
+    Dp.add_department()
+  elif action==2:
+    Dp.delete_department()
+  else:
+    go = False
+
+
+  departments = db.departments.find()
+
+  # Print the departments.
+  for department in departments:
+    print(department)
 
 # Get all of the departments in the collection.
+
 departments = db.departments.find()
 
 # Print the departments.
