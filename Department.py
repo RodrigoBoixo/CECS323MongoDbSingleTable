@@ -44,23 +44,6 @@ class Department:
       list.append(document)
     return list
 
-  def existing_abbreviation(self,department):
-    existing_departments = self.database.departments.find({"abbreviation": department["abbreviation"]})
-    if existing_departments.count_documents() > 0:
-      return 1
-
-  def existing_chair(self,department):
-    existing_departments = self.database.departments.find({"chair_name": department["chair_name"]})
-    if existing_departments.count_documents() > 0:
-      return 1
-
-  def existing_building_and_office(self,department):
-    existing_departments = self.database.departments.find({
-      "building": department["building"],
-      "office": department["office"],
-    })
-    if existing_departments.count_documents() > 0:
-      return 1
 
   def exists(self,department):
     existing_departments = self.database.departments.find({
@@ -111,11 +94,7 @@ class Department:
     departments_collection.insert_one(department)
 
   def delete_department(self):
-    """Deletes a department from the database, using only the abbreviation as a search criterion.
 
-    Args:
-      abbreviation: The abbreviation of the department to delete.
-    """
 
     # Get the departments collection from the database
     departments_collection = self.database.get_collection("departments")
