@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 
-cluster = "mongodb+srv://rboixo:Carm3n1ta@atlascluster.wxir5tb.mongodb.net/?retryWrites=true&w=majority"
+cluster = input("Input your connection link") or "mongodb+srv://rboixo:Carm3n1ta@atlascluster.wxir5tb.mongodb.net/?retryWrites=true&w=majority"
+
+
 
 client = MongoClient(cluster)
 
@@ -79,12 +81,12 @@ def insert_department(department):
 
 
 department = {
-  "name": "Computer Science",
-  "abbreviation": "CS",
-  "chair_name": "Dr. John Smith",
-  "building": "SciTech",
-  "office": 123,
-  "description": "The Computer Science department ."
+  "name": "Electrical Engineering",
+  "abbreviation": "EE",
+  "chair_name": "David Brown",
+  "building": "SciTEch",
+  "office": 111,
+  "description": "The Electrical Engineering department ."
 }
 
 try:
